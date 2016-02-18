@@ -1,0 +1,33 @@
+import processing.sound.*;
+
+
+SawOsc saw;
+int count = 0;
+
+
+void setup() {
+  size(1000, 500);
+
+  saw=new SawOsc(this);
+  saw.play();
+}
+void draw() {
+  fill(200, 200, 0, 1);
+  rect(0, 0, width, height);
+  float f = 100;
+  f = map(mouseX, 0, width, 20, 1000);
+  saw.freq(f);
+  saw.amp(0.1);
+  loadPixels();
+  int x = mouseX;
+  for (int y = 0; y <height; y++) {
+    int ourPixel = x+y*width;
+    
+    float sinY = sin(y/(float)(mouseY+1));
+    sinY = map(sinY,-1,1,0,255);
+    float R = map(sin(f), -1, 1, 0, 255);
+    pixels[ourPixel] = color (R, sinY, 0);
+  }
+
+  updatePixels();
+}
